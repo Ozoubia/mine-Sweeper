@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () =>{
     let width = 10
     let bombNumber = 20
     let squares = []
+    let isGameOver = false
+
 
     // create board
     function createBoard(){
@@ -18,6 +20,11 @@ document.addEventListener('DOMContentLoaded', () =>{
             square.classList.add(shuffledArray[i])
             grid.appendChild(square)
             squares.push(square)
+
+        // normal click
+        square.addEventListener('click', function(e){
+            click(square)
+        })
         }
 
     // adding surrounding numbers
@@ -36,17 +43,55 @@ document.addEventListener('DOMContentLoaded', () =>{
             if (i > 10 && squares[i - width].classList.contains('bomb')){
                 total_numbers ++
             }
-            if (i > 11 && !isLeftEdge && squares[i - 1 - width].classList.contains('bomb'){
+            if (i > 11 && !isLeftEdge && squares[i - 1 - width].classList.contains('bomb')){
+                total_numbers ++
+            }
+            if (i < 98 && !isRightEdge && squares[i + 1].classList.contains('bomb')){
+                total_numbers ++
+            } 
+            if (i < 90 && !isLeftEdge && squares[i - 1 + width].classList.contains('bomb')){
+                total_numbers ++
+            }
+            if (i < 88 && !isRightEdge && squares[i + 1 + width].classList.contains('bomb')) {
+                total_numbers ++
+            }
+            if (i < 89 && squares[i + width].classList.contains('bomb')){
                 total_numbers ++
             }
 
 
             squares[i].setAttribute('data', total_numbers)
-            console.log(squares[i])
+
         }
     }
 
     }
     createBoard()
+
+    //click on square actions
+    function click(square){
+        if (isGameOver){
+            return
+        }
+        if (square.classList.contains('checked') || square.classList.contains('flag')){
+            return
+        }
+
+        // if the class contains a bomb then game over
+        if (square.classList.contains('bomb')){
+            alert('Game over')
+        }else{
+            let total = square.getAttribute('data')
+            if (total != 0){
+                // checking the cell if it's not checked, and if it is empty we give it the 
+                // checked class too without showing the number
+                square.classList.add('checked')
+                // showing the number on the cell
+                square.innerHTML = total
+                return
+            }
+            square.classList.add('checked')
+        }
+    }
 
 })
