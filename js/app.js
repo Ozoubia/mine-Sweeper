@@ -1,8 +1,11 @@
+// code that works when the  dom is loaded
 document.addEventListener('DOMContentLoaded', () =>{
+    // selecting the grid
     const grid = document.querySelector('.grid')
-    let width = 10
-    let bombNumber = 20
-    let squares = []
+    let width = 10              //width of the cell
+    let bombNumber = 15
+    let flags = 0
+    let squares = []            //list that contains all the cells in the gid
     let isGameOver = false
 
 
@@ -25,14 +28,25 @@ document.addEventListener('DOMContentLoaded', () =>{
         square.addEventListener('click', function(e){
             click(square)
         })
+
+        // right click to add flag event listener
+        square.oncontextmenu = function(e){
+            e.preventDefault()
+            addFlag(square)
         }
+        
+        }
+
+        
 
     // adding surrounding numbers
     for (let i = 0; i < squares.length; i++){
         let total_numbers = 0
+        // boolean values if the current cell is a left or right edge cell
         const isLeftEdge = (i % width === 0)
         const isRightEdge = (i % width === width - 1)
 
+        // if the cell is not a bomb then we check its surroundings and add to the total nbr of bombs
         if (squares[i].classList.contains('valid')){
             if (i > 0 && !isLeftEdge && squares[i - 1].classList.contains('bomb')){
                 total_numbers ++
@@ -59,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () =>{
                 total_numbers ++
             }
 
-
+            // the data attribute is used to display the total number of surrounding bombs of a specific cell
             squares[i].setAttribute('data', total_numbers)
 
         }
@@ -68,8 +82,27 @@ document.addEventListener('DOMContentLoaded', () =>{
     }
     createBoard()
 
+    function addFlag(square){
+        if (isGameOver){
+            return
+        }
+        if (!square.classList.contains('checked') && (flags < bombNumber)){
+            if(!square.classList.contains('flag')){
+                square.classList.add('flag')
+                square.innerHTML = '🚩'
+                winCheck()
+            }else{
+                square.classList.remove('flag')
+                square.innerHTML = ''
+                flags --
+            }
+        }
+    }
+
     //click on square actions
     function click(square){
+        let currentId = square.id
+        
         if (isGameOver){
             return
         }
@@ -79,8 +112,9 @@ document.addEventListener('DOMContentLoaded', () =>{
 
         // if the class contains a bomb then game over
         if (square.classList.contains('bomb')){
-            alert('Game over')
+            gameOver(square)
         }else{
+            
             let total = square.getAttribute('data')
             if (total != 0){
                 // checking the cell if it's not checked, and if it is empty we give it the 
@@ -90,7 +124,86 @@ document.addEventListener('DOMContentLoaded', () =>{
                 square.innerHTML = total
                 return
             }
+            checkSquare(square, currentId)
             square.classList.add('checked')
+        }
+        
+    }
+
+    // check neibouring squares once a square is clicked
+    function checkSquare(square, currentId){
+        const isLeftEge = (currentId % width === 0)
+        const isRightEdge = (currentId % width === width - 1)
+
+        setTimeout(() => {
+            if (currentId > 0 && !isLeftEge){
+                const newId = squares[parseInt(currentId) - 1].id
+                const newSquare = document.getElementById(newId)
+                click(newSquare)
+            }
+            if (currentId > 9 && !isRightEdge){
+                const newId = squares[parseInt(currentId) + 1 -width].id
+                const newSquare = document.getElementById(newId)
+                click(newSquare)
+            }
+            if (currentId > 10){
+                const newId = squares[parseInt(currentId - width)].id
+                const newSquare = document.getElementById(newId)
+                click(newSquare)
+            }
+            if (currentId > 11 && !isLeftEge){
+                const newId = squares[parseInt(currentId - 1 - width)].id
+                const newSquare = document.getElementById(newId)
+                click(newSquare)
+            }
+            if (currentId < 98 && !isRightEdge){
+                const newId = squares[parseInt(currentId) + 1].id
+                const newSquare = document.getElementById(newId)
+                click(newSquare)
+            }
+            if (currentId < 90 && !isLeftEge){
+                const newId = squares[parseInt(currentId) - 1 + width].id
+                const newSquare = document.getElementById(newId)
+                click(newSquare)
+            }
+            if (currentId < 88 && !isRightEdge){
+                const newId = squares[parseInt(currentId) + 1 + width].id
+                const newSquare = document.getElementById(newId)
+                click(newSquare)
+            }
+            if (currentId < 89){
+                const newId = squares[parseInt(currentId) + width].id
+                const newSquare = document.getElementById(newId)
+                click(newSquare)
+            }
+
+        }, 10)
+    }
+
+    function gameOver(square){
+        console.log('game over')
+        isGameOver = true
+
+        // showing bombs location
+        squares.forEach(square =>{
+            if (square.classList.contains('bomb')){
+                square.innerHTML = '💣'
+            }
+        })
+    }
+
+    function winCheck(){
+        let matches = 0
+        for (let i = 0; i <squares.length; i++){
+            if (squares[i].classList.contains('flag') && squares[i].classList.contains('bomb')){
+                matches ++
+            }
+            
+            if (matches === bombNumber){
+                console.log('YOU WON')
+                isGameOver = true
+            }
+            
         }
     }
 
