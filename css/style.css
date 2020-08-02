@@ -1,3 +1,10 @@
+.brand-logo{
+    margin-left: 6vw;
+}
+
+.nbr_bombs_setting input{
+    max-width: 100px;
+}
 
 .container{
     /* background-color: blue; */
@@ -11,42 +18,69 @@
 .statusBar{
     width: 500px;
     height: 60px;
-    background-color: red;
+    background: linear-gradient(180deg, rgba(2,170,176,1) 0%, rgba(0,205,172,1) 100%);
     margin-top: 50px;
     border-radius: 8px 8px 0px 0px;
+    border: 1px solid whitesmoke;
+    margin-bottom: 0px;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;    
+}
+
+.statusBar p {
+    color: white;
+    font-weight: bold;
+}
+
+.bbLeftDiv{
+    display: flex;
+    flex-direction: row;
     align-items: center;
 }
 
+.bbLeftDiv p {
+    font-weight: bold;
+    font-size: 25px;
+    padding-top: 12px;
+    margin-left: 10px;
+}
+
+.bbLeftDiv img{
+    height: 50px;
+}
 
 .grid{
     height: 500px;
     width: 500px;
     display: flex;
     flex-wrap: wrap;
-    background-color: #212121;
-    border-radius: 0px 0px 8px 8px;
+    background: linear-gradient(180deg, rgba(2,170,176,1) 0%, rgba(0,205,172,1) 100%);
+    border-radius: 8px;
 }
 
 .grid div {
     height: 50px;
     width: 50px;
-    border: 2px solid ;
+    border: 1px solid whitesmoke; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .bomb{
-    /* background-color: red; */
+    height: 50px;
+    
 }
 
 .checked{
-    background-color: #84ffff;
+    background-color: #c4e0e5  ; 
 }
 
-.brand-logo{
-    margin-left: 6vw;
-}
 
-#gameOverText{
+#ResultText{
     color:white;
 }
 

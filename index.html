@@ -20,52 +20,42 @@
             <ul class="right hide-on-med-and-down">
                 <li>
                     <!-- Modal Trigger -->
-                    <a class="waves-effect waves-light btn modal-trigger" href="#settingModel">Settings</a>
+                    <a class="waves-effect waves-light btn modal-trigger " href="#settingModel">Settings</a>
                      <!-- Modal Structure -->
                     <div id="settingModel" class="modal">
                         <div class="modal-content light-blue darken -2">
                             <!-- title -->
-                            <h3>Settings</h3>
-                            <div>
+                            <h3 classe="grey">Settings</h3>
+                            <div class="nbr_bombs_setting">
                                 <h6>Number of bombs</h6> 
                                 <input type="number" value="20" id="nbrBombs">
                             </div>
                             <button class="btn waves-effect waves-light " onclick="saveBtn()">Save</button>
-                            
-                         
-                            
-                       
                     </div>
                 </li>
-                
-                
             </ul>
         </div>
     </nav>
     
+    <!-- main board -->
     <div class="container ">
         <!-- showing stats -->
         <div class="statusBar">
             <!-- bombs left -->
+            <div class="bbLeftDiv">
+                <img  src="resources/bomb.png">
+                <p id="bombsLeftDiv"></p>
+            </div>
+            <!-- restart -->
             <div >
-                <p id="bombsLeftDiv">bomb</p>
-                
-            </div>
-            <!-- timer -->
-            <div id="timer">
-                <p>12.33</p>
-            </div>
-            <!-- reset -->
-            <div>
-                <img src="resources/reset.png" onclick="resetBtn()" height="32px">
-                <!-- <button class="btn" onclick="resetBtn()"></button> -->
+                <img src="resources/restart.svg" onclick="restartBtn()" height="32px">
             </div>
         </div>
         <!-- main board  -->
-        <div class="grid light-blue darken -2">
+        <div class="grid">
         </div>
-        <h4 id="gameOverText" class="hide">Game over</h4>
+        <!-- win or lose text -->
+        <h4 id="ResultText" class="hide">Keep playing</h4>
     </div>
-    
 </body>
 </html>
